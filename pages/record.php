@@ -301,7 +301,7 @@ $conn->close();
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="logooo-removebg-preview.png" alt="Logo" class="d-inline-block align-top">
+            <img src="infiniteethbg.png" alt="Logo" class="d-inline-block align-top">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon bg-white"></span>
