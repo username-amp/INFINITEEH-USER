@@ -138,7 +138,7 @@ body {
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="logooo-removebg-preview.png" alt="Logo" class="d-inline-block align-top">
+            <img src="infiniteethbg.png" alt="Logo" class="d-inline-block align-top">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon bg-white"></span>
@@ -177,7 +177,7 @@ body {
     <div class="row justify-content-center clinic-img">
         <div class="col-md-6">
             <div class="card bg-blur">
-                <img src="logooo-removebg-preview.png" class="card-img-top" alt="Dental Clinic">
+                <img src="infiniteethbg.png" class="card-img-top" alt="Dental Clinic">
             </div>
         </div>
     </div>

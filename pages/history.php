@@ -33,8 +33,8 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointment History</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="records.css" rel="stylesheet">
     <style>
         body {
             display: flex;
@@ -62,16 +62,19 @@ $conn->close();
         .navbar-brand {
             font-size: 20px;
             color: white !important;
-        }
+        }   
 
         .offcanvas-body {
             color: white;
         }
-
-        .nav-link {
+        .nav-link{
             color: white;
             font-weight: bold;
             font-size: 20px;
+        
+        }
+        .nav-item{
+            margin-right: 40px;
         }
 
         .containerTable {
@@ -130,63 +133,63 @@ $conn->close();
 
 
         @media screen and (max-width: 768px) {
-    .containerTable {
-        margin-top: 100px;
-        width: 90%;
-    }
-    
-    h2 {
-        font-size: 30px;
-    }
-    
-    .table-container {
-        padding: 10px;
-        border-radius: 5px;
-    }
+            .containerTable {
+                margin-top: 100px;
+                width: 90%;
+            }
+            
+            h2 {
+                font-size: 30px;
+            }
+            
+            .table-container {
+                padding: 10px;
+                border-radius: 5px;
+            }
 
-    table {
-        font-size: 14px;
-    }
+            table {
+                font-size: 14px;
+            }
 
-    th, td {
-        padding: 6px;
-    }
-}
+            th, td {
+                padding: 6px;
+            }
+        }
 
 /* Additional styling for smaller screens if needed */
 
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container-fluid">
-            <!-- Logo -->
-            <a class="navbar-brand" href="HomePage.html">
-                <img src="infiniteethbg.png" alt="Logo">
-            </a>
-            <!-- Navbar toggle button for small screens -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- Offcanvas menu -->
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <!-- Navigation links -->
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link" href="record.php">Back</a>
-                        </li>
-                    </ul>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="infiniteethbg.png" alt="Logo" class="d-inline-block align-top">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon bg-white"></span>
+                </button>
+                <div class="offcanvas offcanvas-end bg-black" tabindex="-1" id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel">
+                    <div class="offcanvas-header">
+                        <h1 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Infiniteeth</h1>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="margin-top: 30px;">
+                            <li class="nav-item" style="margin-right: 65px;">
+                                <a class="nav-link" href="dashboard.php">Dashboard</a>
+                            </li>
+                            <li class="nav-item" style="margin-right: 65px;">
+                                <a class="nav-link" href="record.php">Record</a>
+                            </li>
+                            <li class="nav-item" style="margin-right: 65px;">
+                                <a class="nav-link" href="appointment.php?logout=true">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
-
+        </nav>
     <!-- Main content -->
     <div class="containerTable">
         <h2>Appointment History</h2>
@@ -220,23 +223,32 @@ $conn->close();
         </div>
     </div>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+mBBkL3pQA+zY+WqFGKCKEGZ6iAv7PLapd52/Y5pM5aG2flak99N6GVHeS5bX9" crossorigin="anonymous"></script>
+   
 
     <script>
-    // Function to initialize the offcanvas menu
-    var offcanvasElement = document.getElementById('offcanvasNavbar');
-    var offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+        // Initialize offcanvas menu
+        var offcanvasElement = document.getElementById('navbarOffcanvasLg');
+        var offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
+            backdrop: false, // Disable backdrop
+            keyboard: false, // Disable closing on escape key press
+            scroll: false     // Disable closing on document scroll
+        });
 
-    // Function to toggle the offcanvas menu
-    function toggleOffcanvas() {
-        offcanvas.toggle();
-    }
+        // Function to toggle the offcanvas menu
+        function toggleOffcanvas() {
+            offcanvas.toggle();
+        }
 
-    // Add event listener to the navbar toggler button
-    var navbarToggler = document.querySelector('.navbar-toggler');
-    navbarToggler.addEventListener('click', toggleOffcanvas);
-</script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add event listener to the navbar toggler button
+            var navbarToggler = document.querySelector('.navbar-toggler');
+            navbarToggler.addEventListener('click', toggleOffcanvas);
+        });
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 
 </html>

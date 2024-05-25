@@ -209,6 +209,12 @@ body {
     height: auto;
 }
 
+.describing-content img{
+    max-width: 100%;
+    height: auto;
+    margin-top: 40px;
+}
+
 /* Media queries for responsiveness */
 @media screen and (max-width: 768px) {
     .opencontainer {
@@ -415,6 +421,7 @@ text-align: center;
             <h1>Trustworthy Dental Services</h1>
             <p>Our dedicated team is committed to providing top-quality dental care in a warm, welcoming atmosphere.</p>
             <a href="dentist.php" class="btn btn-primary">Click Me</a>
+            <img src="serbisyo.png" alt="Services Image">
 
         </div>
 

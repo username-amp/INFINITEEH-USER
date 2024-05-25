@@ -1,55 +1,40 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+include('../connection/connection.php');
 
-function connection() {
-    $host = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "infiniteeth";
-    
-    $conn = new mysqli($host, $username, $password, $dbname);
-    
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    
-    return $conn;
-}
-
-function register() {
+if (isset($_POST['btnRegister'])) {
     $email = $_POST['email'];
-    $password = password_hash($_POST['pass'], PASSWORD_DEFAULT); // Hash the password
+    $password = $_POST['password'];
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     $fullname = $_POST['fullname'];
     $sex = $_POST['sex'];
     $age = $_POST['age'];
     $address = $_POST['address'];
     $contact = $_POST['contact'];
-    
-    if(empty($email) || empty($_POST['pass']) || empty($fullname) || empty($sex) || empty($age) || empty($address) || empty($contact)) {
+
+    if (empty($email) || empty($password) || empty($fullname) || empty($sex) || empty($age) || empty($address) || empty($contact)) {
         echo "<script>alert('Please fill up all fields.');</script>";
     } else {
-        $conn = connection();
-        
-        $stmt = $conn->prepare("INSERT INTO patient (email, Password, `Full Name`, sex, age, address, contact) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssiss", $email, $password, $fullname, $sex, $age, $address, $contact);
+        $con = connection();
+        $sqlRegister = "INSERT INTO `patient` (`Email`, `Password`, `OriginalPassword`, `Full Name`, `Sex`, `Age`, `Address`, `Contact`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $con->prepare($sqlRegister);
+        $stmt->bind_param("ssssssss", $email, $hashedPassword, $password, $fullname, $sex, $age, $address, $contact);
         
         if ($stmt->execute()) {
-            header("Location: login.php"); // Redirect to login page on successful registration
-            exit();
+           
+            echo "<script>alert('Registration successful. You are now registered.');</script>";
+            echo "<script>window.location.href = 'login.php';</script>";
+            exit; 
         } else {
-            echo "Error: " . $stmt->error;
+            echo "<script>alert('Error: Could not register.');</script>";
         }
-        
+
         $stmt->close();
-        $conn->close();
+        $con->close();
     }
 }
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    register();
-}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,10 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             background-image: url('servicebg-transformed.png');
             background-size: cover;
             background-position: center;
@@ -71,27 +52,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .container {
             position: relative;
+            width: 400px;
             margin-top: 150px;
-            width: 500px;
-            height: 100%;
             background: transparent;
             border: 2px solid lightgrey;
             border-radius: 20px;
-            backdrop-filter: blur(20px);
             box-shadow: 0 0 30px black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            transition: height .2s ease;
+            backdrop-filter: blur(20px);
+            padding: 20px;
         }
-        .container h2{
-            margin-top: 35px;
+
+        .container h2 {
+            margin-top: 15px;
+            
         }
-        .form-control{
-            width: 450px;
+
+        .form-control {
+            width: 100%;
         }
-        
+
         /* Updated styles */
         .navbar {
             position: fixed;
@@ -114,20 +93,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .offcanvas-body {
             color: white;
         }
-        .nav-link{
+
+        .nav-link {
             color: white;
             font-weight: bold;
             font-size: 20px;
-        
         }
+
         .navbar-toggler {
             color: white !important;
         }
-        .nav-item{
+
+        .nav-item {
             margin-right: 75px;
         }
+
         .btns {
-            margin-bottom: 35px;
+            margin-top: 20px;
             display: flex;
             justify-content: space-between;
         }
@@ -150,10 +132,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="logooo-removebg-preview.png" alt="Logo" class="d-inline-block align-top">
+                <img src="infiniteethbg.png" alt="Logo" class="d-inline-block align-top">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon bg-white"></span>
@@ -190,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <div class="input-group">
-                    <input type="password" name="pass" class="form-control" id="exampleInputPassword1" required>
+                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" required>
                     <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility()">See</button>
                 </div>
             </div>

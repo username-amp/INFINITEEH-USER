@@ -7,7 +7,7 @@ if (isset($_POST['btnLogin'])) {
     $email = $_POST['email'];
     $pass = $_POST['pass'];
 
-    if(empty($email) || empty($pass)) {
+    if (empty($email) || empty($pass)) {
         echo "<script>alert('Please fill up all fields.');</script>";
     } else {
         $con = connection();
@@ -24,6 +24,7 @@ if (isset($_POST['btnLogin'])) {
             if (password_verify($pass, $user['Password'])) {
                 $_SESSION['UserLogin'] = $user['Email'];
                 $_SESSION['PatientID'] = $user['PatientID'];
+                $_SESSION['login_success'] = true;
 
                 header('Location: dashboard.php');
                 exit();
@@ -89,15 +90,17 @@ if (isset($_POST['btnLogin'])) {
         .offcanvas-body {
             color: white;
         }
+
         .nav-link{
             color: white;
             font-weight: bold;
             font-size: 20px;
-        
         }
+
         .navbar-toggler {
             color: white !important;
         }
+
         .nav-item{
             margin-right: 75px;
         }
@@ -118,6 +121,7 @@ if (isset($_POST['btnLogin'])) {
             overflow: hidden;
             transition: height .2s ease;
         }
+
         .btn-danger {
             background-color: #dc3545;
             border-color: #dc3545;
@@ -216,10 +220,10 @@ if (isset($_POST['btnLogin'])) {
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="logooo-removebg-preview.png" alt="Logo" class="d-inline-block align-top">
+                <img src="infiniteethbg.png" alt="Logo" class="d-inline-block align-top">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon bg-white"></span>
@@ -269,7 +273,7 @@ if (isset($_POST['btnLogin'])) {
                 </div>
                 <div class="remember-forgot">
                     <label><input type="checkbox">Remember me</label>
-                    <a href="#">Forgot Password?</a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
                 </div>
                 <button type="submit" name="btnLogin" class="btn">Login</button>
                 <div class="login-register">
@@ -279,9 +283,56 @@ if (isset($_POST['btnLogin'])) {
         </div>
     </div>
 
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="forgotPasswordForm">
+                        <div class="mb-3">
+                            <label for="forgotEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="forgotEmail" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="retrievePassword()">Retrieve Password</button>
+                    </form>
+                    <div id="passwordDisplay" class="mt-3" style="display: none;">
+                        <p>Your password is: <span id="retrievedPassword"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function retrievePassword() {
+            var email = document.getElementById('forgotEmail').value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'retrieve_password.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        document.getElementById('passwordDisplay').style.display = 'block';
+                        document.getElementById('retrievedPassword').innerText = response.password;
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                }
+            };
+            xhr.send('email=' + encodeURIComponent(email));
+        }
+    </script>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybBogGzGQvZ6uw6R9O6XNf4gZvE6w3CqbbVxrGytlP0V2T04Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>

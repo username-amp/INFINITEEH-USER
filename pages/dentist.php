@@ -7,20 +7,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             background-image: url('dentistBG.jpg');
             background-size: cover;
             background-position: center;
+            margin: 0;
+            padding: 0;
         }
 
         .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
             background-color: transparent;
         }
 
@@ -37,57 +32,43 @@
         .offcanvas-body {
             color: white;
         }
-        .nav-link{
+
+        .nav-link {
             color: white;
             font-weight: bold;
             font-size: 20px;
-        
         }
-        form {
-            margin-top: 150px;
-            width: 500px;
-            background-color: beige;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        
+
         .container1 {
-            user-select: none;
-            margin-top: 12%;
-            padding-right: 15px;
-            padding-left: 15px;
-            margin-right: 100px;
-            margin-left: 100px;
+            margin-top: 100px;
+            padding: 20px;
         }
-        .container {
-            background-color: transparent;
-            backdrop-filter: blur(20px);
-            display: flex;
-            align-items: center;
-            margin-bottom: 10%;
-        }
+
         .container img {
-            margin-left: 2%;
-            margin-right: 17%;
-            max-width: 500px;
-            border: 2px solid;
+            max-width: 100%;
+            height: auto;
             border-radius: 25px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
+
         .paragraph-container {
-            font-family: arial;
+            backdrop-filter: blur(10px);
+            padding: 20px;
             text-align: right;
-            max-width: 100%;
+            border-radius: 10px;
         }
+
         .h1 {
-            font-size: 50px;
+            font-size: 2rem;
         }
+
         .row {
             border-radius: 25px;
             background-color: #D1CEC3;
             border: 2px solid;
             margin-bottom: 100px;
+            margin-left: -15px;
+            margin-right: -15px;
         }
         .col-md-4 {
             margin-top: 10px;
@@ -108,6 +89,7 @@
             text-align: center;
         }
         .card {
+            
             background-color: rgba(234, 233, 232, 0.8);
             border-radius: 20px;
             margin-bottom: 10px;
@@ -125,6 +107,7 @@
             display: block;
             animation: fadeIn 0.5s forwards;
         }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -135,18 +118,20 @@
                 transform: translateY(0);
             }
         }
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(-10px);
+
+        @media (max-width: 992px) {
+            .paragraph-container {
+                text-align: center;
             }
         }
-        .card-body.hide .details {
-            animation: fadeOut 0.5s forwards;
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .container img {
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -154,7 +139,7 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="logooo-removebg-preview.png" alt="Logo" class="d-inline-block align-top">
+            <img src="infiniteethbg.png" alt="Logo" class="d-inline-block align-top">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon bg-white"></span>
@@ -189,7 +174,7 @@
     </div>
 
     <h2 class="dentist-header">Available Dentists</h2>
-    <div class="row">
+    <div class="row row-cols-1 row-cols-md-3">
         <?php
         include('../connection/connection.php');
         $con = connection();
